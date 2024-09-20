@@ -1,0 +1,19 @@
+def print_tree(directory, file_writer, indent=''):
+    files = os.listdir(directory)
+    files.sort()  
+
+    for index, file in enumerate(files):
+        path = os.path.join(directory, file)
+        is_last = index == len(files) - 1
+        if os.path.isdir(path):
+            file_writer.write(indent + ('└── ' if is_last else '├── ') + file + '/\n')
+            print_tree(path, file_writer, indent + ('    ' if is_last else '│   '))
+        else:
+            file_writer.write(indent + ('└── ' if is_last else '├── ') + file + '\n')
+
+root_directory = 'указываем_путь_к_папке'
+
+with open('directory_structure.txt', 'w', encoding='utf-8') as file_writer:
+    print_tree(root_directory, file_writer)
+
+print("Структура директории сохранена в файл 'directory_structure.txt'")
